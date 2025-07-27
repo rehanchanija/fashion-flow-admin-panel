@@ -11,7 +11,7 @@ const LoginForm = () => {
   const onFinish = async (values: { email: string; password: string }) => {
     setLoading(true);
     try {
-      const response = await axios.post<{access_token:string}>('http://localhost:3000/auth/login', values);
+      const response = await axios.post<{access_token:string}>('http://localhost:3003/auth/login', values);
       localStorage.setItem('token', response?.data?.access_token);
       message.success('Login successful!');
       router.push('/admin/products');
