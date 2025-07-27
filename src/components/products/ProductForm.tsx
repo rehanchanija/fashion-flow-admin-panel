@@ -22,7 +22,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       const formData = new FormData();
       Object.keys(values).forEach(key => {
         if (key !== 'image') {
-          formData.append(key, values[key]);
+          if (key === 'size' || key === 'color') {
+            // Ensure arrays are properly handled
+            if (Array.isArray(values[key])) {
+              values[key].forEach((value: string) => {
+                formData.append(key, value);
+              });
+            }
+          } else {
+            formData.append(key, values[key]);
+          }
         }
       });
       
@@ -38,10 +47,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       };
 
       if (product?._id) {
-        await axios.patch(`http://localhost:3000/products/${product._id}`, formData, config);
+        await axios.patch(`http://localhost:3003/products/${product._id}`, formData, config);
         message.success('Product updated successfully');
       } else {
-        await axios.post('http://localhost:3000/products', formData, config);
+        await axios.post('http://localhost:3003/products', formData, config);
         message.success('Product created successfully');
       }
       
@@ -115,9 +124,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
         rules={[{ required: true, message: 'Please select the category!' }]}
       >
         <Select>
-          <Select.Option value="clothing">Clothing</Select.Option>
-          <Select.Option value="accessories">Accessories</Select.Option>
-          <Select.Option value="shoes">Shoes</Select.Option>
+          <Select.Option key="clothing" value="clothing" children="Clothing" />
+          <Select.Option key="accessories" value="accessories" children="Accessories" />
+          <Select.Option key="shoes" value="shoes" children="Shoes" />
         </Select>
       </Form.Item>
 

@@ -33,7 +33,7 @@ const ProductsPage = () => {
       }
 
       const response = await axios.get<ProductsResponse>(
-        `http://localhost:3000/products?page=${page}&limit=${pagination.pageSize}&search=${search}`,
+        `http://localhost:3003/products?page=${page}&limit=${pagination.pageSize}&search=${search}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -74,8 +74,9 @@ const ProductsPage = () => {
   };
 
   const handleTableChange = (page: number, pageSize: number) => {
-    setPagination({ ...pagination, current: page, pageSize });
-    fetchProducts(page, searchTerm);
+    const newPagination = { ...pagination, current: page, pageSize };
+    setPagination(newPagination);
+    fetchProducts(page > 0 ? page : 1, searchTerm);
   };
 
   const handleEdit = (product: Product) => {
