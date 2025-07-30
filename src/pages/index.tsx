@@ -21,7 +21,7 @@ export default function Home() {
     const token = localStorage.getItem('accessToken');
 
     if (token) {
-      router.replace('/admin/product'); // ✅ redirect to homepage
+      router.replace('/admin/dashboard'); // ✅ redirect to homepage
     } else {
       router.replace('/admin/login'); // ❌ no token, go to login
     }

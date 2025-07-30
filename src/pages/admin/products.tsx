@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Button, Input, Space, Modal, message } from 'antd';
+import { Button, Input, Space, Modal, message } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import ProductTable from '@/components/products/ProductTable';
@@ -7,8 +7,7 @@ import ProductForm from '@/components/products/ProductForm';
 import { Product, ProductsResponse } from '@/types/product';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-
-const { Header, Content } = Layout;
+import AdminLayout from '@/components/layout/AdminLayout';
 
 const ProductsPage = () => {
   const router = useRouter();
@@ -99,12 +98,12 @@ const ProductsPage = () => {
   };
 
   return (
-    <>
+    <AdminLayout>
       <Head>
         <title>Manage Products - Fashion Flow</title>
       </Head>
-      <Layout className="min-h-screen">
-        <Header className="bg-white shadow-md flex items-center justify-between px-6">
+      <div>
+        <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Product Management</h1>
           <Button
             type="primary"
@@ -113,8 +112,8 @@ const ProductsPage = () => {
           >
             Add Product
           </Button>
-        </Header>
-        <Content className="p-6">
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-sm">
           <div className="mb-4">
             <Space>
               <Input
@@ -139,19 +138,19 @@ const ProductsPage = () => {
             pagination={pagination}
             onChange={handleTableChange}
           />
+        </div>
+      </div>
 
-          <Modal
-            title={editProduct ? 'Edit Product' : 'Add New Product'}
-            open={modalVisible}
-            onCancel={handleModalClose}
-            footer={null}
-            width={800}
-          >
-            <ProductForm product={editProduct} onSubmit={handleFormSubmit} />
-          </Modal>
-        </Content>
-      </Layout>
-    </>
+      <Modal
+        title={editProduct ? 'Edit Product' : 'Add New Product'}
+        open={modalVisible}
+        onCancel={handleModalClose}
+        footer={null}
+        width={800}
+      >
+        <ProductForm product={editProduct} onSubmit={handleFormSubmit} />
+      </Modal>
+    </AdminLayout>
   );
 };
 
